@@ -8,21 +8,16 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-def crawl_wanted_jobs_detail(url, filename, scroll_limit=0, headless=False):
+def crawl_wanted_jobs_detail(url, filename, scroll_limit=0):
     """
     주어진 URL의 원티드 공고 목록을 크롤링하여 CSV 파일로 저장합니다.
     :param url: 크롤링할 원티드 공고 목록 페이지 URL
-    :param filename: CSV 파일명 접두어
-    :param headless: Chrome을 헤드리스 모드로 실행할지 여부
+    :param filename: CSV 파일명
+    :param scroll_limit: 스크롤 횟수 설정(0은 무한 스크롤)
     """
 
     # 1. Selenium 설정
-    options = webdriver.ChromeOptions()
-    if headless:
-        options.add_argument("--headless")
-        options.add_argument("--disable-gpu")  # 일부 환경에서 필요할 수 있음
-
-    driver = webdriver.Chrome(options=options)
+    driver = webdriver.Chrome()
     wait = WebDriverWait(driver, 10)
 
     try:
@@ -241,11 +236,10 @@ def main():
     parser.add_argument("--url", type=str, required=True, help="원티드 사이트에서 원하는 필터를 적용한 후의 최종 공고 목록 URL")
     parser.add_argument("--filename", type=str, default="wanted", help="결과 CSV 파일명 (기본값: 'wanted')")
     parser.add_argument("--scroll_limit", type=int, default=0, help="스크롤 횟수 (0이면 무한 스크롤, 기본값: 0)")
-    parser.add_argument("--headless", action="store_true", help="헤드리스 모드로 실행할지 여부 (기본값: False)")
     args = parser.parse_args()
 
     # 인자로 받은 값들을 함수에 전달
-    crawl_wanted_jobs_detail(url=args.url, filename=args.filename, scroll_limit=args.scroll_limit, headless=args.headless)
+    crawl_wanted_jobs_detail(url=args.url, filename=args.filename, scroll_limit=args.scroll_limit)
 
 if __name__ == "__main__":
     main()

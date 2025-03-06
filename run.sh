@@ -4,10 +4,9 @@ URL="https://www.wanted.co.kr/wdlist/518?country=kr&job_sort=job.popularity_orde
 # CSV 파일 이름
 FILENAME="dev-py_ml_dte_dts_bdte-carrer_all-loc_all-pop_ord"
 
-# "$@" 부분을 --headless로 바꾸면 헤드리스 모드로 실행
-# 헤드리스 모드? 브라우저 창이 열리지 않고, 백그라운드에서 실행
+# --scroll_limit이 0일 경우 무한 스크롤하여 모든 채용공고를 수집
+# --scroll_limit을 지정하여 스크롤 횟수 지정 가능
 python3 wanted_crawler.py \
     --url "$URL" \
     --filename "$FILENAME" \
-    --scroll_limit 2 \
-    "$@"
+    --scroll_limit 0
